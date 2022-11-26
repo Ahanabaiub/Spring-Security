@@ -33,8 +33,8 @@ public class ApplicationSecurityConfig {
 //            ).httpBasic(withDefaults());
 
         http.authorizeRequests()
-                .antMatchers("/","/index","/css/*","/js/*")
-                .permitAll()
+                .antMatchers("/","/index","/css/*","/js/*").permitAll()
+                .antMatchers("/api/v1/students/*").hasRole(STUDENT.name())
                 .anyRequest()
                 .authenticated()
                 .and()
