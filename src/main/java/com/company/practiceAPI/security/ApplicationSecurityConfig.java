@@ -32,7 +32,9 @@ public class ApplicationSecurityConfig {
 //                    .anyRequest().authenticated()
 //            ).httpBasic(withDefaults());
 
-        http.authorizeRequests()
+        http
+                .csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/","/index","/css/*","/js/*").permitAll()
                 .antMatchers("/api/v1/students/*").hasRole(STUDENT.name())
                 .anyRequest()
@@ -56,9 +58,16 @@ public class ApplicationSecurityConfig {
                 .roles(ADMIN.name())
                 .build();
 
+        UserDetails tomUser = User.builder()
+                .username("tom")
+                .password(passwordEncoder.encode("password123"))
+                .roles(ADMINTRAINEE.name())
+                .build();
+
         return new InMemoryUserDetailsManager(
                 annaSmithUser,
-                lindaUser
+                lindaUser,
+                tomUser
         );
     }
 
